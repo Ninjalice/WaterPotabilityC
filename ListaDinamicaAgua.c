@@ -12,7 +12,7 @@ void errorLista(char s[])
     exit(1);
 }
 
-void encolar(ListaDinamica *l, tipoAgua elemento)
+void insertarEnLista(ListaDinamica *l, tipoAgua elemento)
 {
     celdaLista *nuevo;
     nuevo = (celdaLista *)malloc(sizeof(celdaLista));
@@ -29,29 +29,22 @@ void encolar(ListaDinamica *l, tipoAgua elemento)
     l->fin = nuevo;
 }
 
-void desencolar(ListaDinamica *l)
+void eliminarDeLista(ListaDinamica *l,int indice)
 {
     if (esNulaLista(*l))
         errorLista("No se puede desencolar en una cola vacia.");
     else
     {
-        celdaLista *aux;
-        aux = l->ini;
-        l->ini = (l->ini)->sig;
-        if (l->ini == NULL)
-        {
-            l->fin = NULL;
-        }
-        free(aux);
+        //hace falta hacer esto
     }
 }
 
-tipoAgua frente(ListaDinamica l)
+tipoAgua mostrarElementoLista(ListaDinamica l)
 {
     if (esNulaLista(l))
         errorCola("No se puede obtener el primero en una cola vacia.");
     else
-        return l.ini->elem;
+        return l.ini->elem; //hace falta cambiar esto
 }
 
 bool esNulaLista(ListaDinamica l)
