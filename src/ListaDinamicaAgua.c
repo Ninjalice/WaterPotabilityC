@@ -4,6 +4,8 @@ void nuevaLista(ListaDinamica *l)
 {
     l->ini = NULL;
     l->fin = NULL;
+    l->numAtributos = 0;
+    l->numeroAguas = 0;
 }
 
 void errorLista(char s[])
@@ -16,15 +18,18 @@ void insertarEnLista(ListaDinamica *l, tipoAgua elemento)
 {
     celdaLista *nuevo;
     nuevo = (celdaLista *)malloc(sizeof(celdaLista));
-    nuevo->elem = elemento;
-    nuevo->sig = NULL;
-    if (l->fin == NULL)
+    nuevo->elem = elemento;    
+    if (esNulaLista(*l))
     {
-        l->ini = nuevo;
+       nuevo->sig = NULL;
+       nuevo->ant = NULL;
+       l->ini = nuevo;       
     }
     else
     {
         l->fin->sig = nuevo;
+        nuevo->ant = l->fin;
+        nuevo->sig = NULL;
     }
     l->fin = nuevo;
 }
@@ -42,7 +47,7 @@ void eliminarDeLista(ListaDinamica *l,int indice)
 tipoAgua mostrarElementoLista(ListaDinamica l)
 {
     if (esNulaLista(l))
-        errorCola("No se puede obtener el primero en una cola vacia.");
+        errorCola("No se puede obtener elemento.");
     else
         return l.ini->elem; //hace falta cambiar esto
 }

@@ -30,4 +30,23 @@ typedef struct
 {
     celdaLista *ini;
     celdaLista *fin;
+    int numeroAguas;
+    int numAtributos;
 } ListaDinamica;
+
+void nuevaLista(ListaDinamica *l);
+
+
+void errorLista(char s[]);
+
+
+void insertarEnLista(ListaDinamica *l, tipoAgua elemento);
+
+
+void eliminarDeLista(ListaDinamica *l, int indice);
+
+
+tipoAgua mostrarElementoLista(ListaDinamica l);
+
+
+bool esNulaLista(ListaDinamica l);
