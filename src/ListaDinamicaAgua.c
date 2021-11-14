@@ -18,12 +18,12 @@ void insertarEnLista(ListaDinamica *l, tipoAgua elemento)
 {
     celdaLista *nuevo;
     nuevo = (celdaLista *)malloc(sizeof(celdaLista));
-    nuevo->elem = elemento;    
+    nuevo->elem = elemento;
     if (esNulaLista(*l))
     {
-       nuevo->sig = NULL;
-       nuevo->ant = NULL;
-       l->ini = nuevo;       
+        nuevo->sig = NULL;
+        nuevo->ant = NULL;
+        l->ini = nuevo;
     }
     else
     {
@@ -34,22 +34,44 @@ void insertarEnLista(ListaDinamica *l, tipoAgua elemento)
     l->fin = nuevo;
 }
 
-void eliminarDeLista(ListaDinamica *l,int indice)
+void PrimeraCeldaLista(ListaDinamica l , celdaLista *celda)
 {
-    if (esNulaLista(*l))
-        errorLista("No se puede desencolar en una cola vacia.");
+    if (esNulaLista(l))
+        errorLista("No se puede obtener elemento.");
     else
-    {
-        //hace falta hacer esto
+    {        
+        celda = l.ini;
     }
 }
 
-tipoAgua mostrarElementoLista(ListaDinamica l)
+void ObtenerSiguiente(celdaLista *celda)
 {
-    if (esNulaLista(l))
-        errorCola("No se puede obtener elemento.");
+    if (celda == NULL)
+        errorLista("No se puede obtener elemento.");
     else
-        return l.ini->elem; //hace falta cambiar esto
+    {
+        celda = celda->sig;
+    }
+}
+
+tipoAgua mostrarElementoCelda(celdaLista *celda)
+{
+    if (celda == NULL)
+        errorLista("No se puede obtener elemento.");
+    else
+    {
+        return celda->elem;
+    }
+}
+
+void editarElementoLista(celdaLista *celda, tipoAgua nuevo)
+{
+    if (esNulaLista(*l))
+        errorLista("No se puede editar elemento.");
+    else
+    {
+        celda->elem = nuevo;         
+    }
 }
 
 bool esNulaLista(ListaDinamica l)
