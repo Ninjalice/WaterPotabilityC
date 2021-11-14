@@ -49,8 +49,6 @@ void ObtenerSiguiente(celdaLista *celda);
 
 tipoAgua mostrarElementoCelda(celdaLista *celda);
 
-
-void editarElementoLista(tipoAgua *elemen, tipoAgua nuevo);
-
+void editarElementoLista(celdaLista *celda, int i, float valor);
 
 bool esNulaLista(ListaDinamica l);

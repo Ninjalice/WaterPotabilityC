@@ -29,7 +29,8 @@ void normalizar(ListaDinamica *lista, float maximos[], float minimos[]) // valor
         PrimeraCeldaLista(lista, celda);
         for (int k = 0; k < lista->numeroAguas; k++)
         {
-            mostrarElementoCelda(celda){i} = ((mostrarElementoCelda(celda){i} - minimos[i]) / (dif));
+            float valor = ((mostrarElementoCelda(celda){i} - minimos[i]) / (dif)); 
+            editarElementoLista(celda,i,valor);
             ObtenerSiguiente(celda);
         }
     }

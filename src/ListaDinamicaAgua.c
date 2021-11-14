@@ -64,13 +64,13 @@ tipoAgua mostrarElementoCelda(celdaLista *celda)
     }
 }
 
-void editarElementoLista(celdaLista *celda, tipoAgua nuevo)
+void editarElementoLista(celdaLista *celda, int  i , float valor)
 {
-    if (esNulaLista(*l))
+    if (celda == NULL)
         errorLista("No se puede editar elemento.");
     else
     {
-        celda->elem = nuevo;         
+        (celda->elem){i} = valor;
     }
 }
 
