@@ -64,16 +64,6 @@ tipoAgua mostrarElementoCelda(celdaLista *celda)
     }
 }
 
-void editarElementoLista(celdaLista *celda, int  i , float valor)
-{
-    if (celda == NULL)
-        errorLista("No se puede editar elemento.");
-    else
-    {
-        (celda->elem){i} = valor;
-    }
-}
-
 bool esNulaLista(ListaDinamica l)
 {
     return l.ini == NULL;
