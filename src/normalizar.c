@@ -153,43 +153,34 @@ void normalizar(ListaDinamica *lista, float maximos[], float minimos[]) // valor
     }
 }
 
-void normalizarEntrada(ListaDinamica *lista, float maximos[], float minimos[]) // valornormalizado = ((valor - min)/ dif) siendo dif = max - min;
+void normalizarEntrada(tipoAgua entrada, float maximos[], float minimos[]) // valornormalizado = ((valor - min)/ dif) siendo dif = max - min;
 {
-    float dif;
-    celdaLista *celda;
-    PrimeraCeldaLista(lista, celda);    
-    ObtenerMaxMins(lista, maximos, minimos);
-    for (int i = 0; i < (lista->numeroAguas - 1); i++)
-    {
-        dif = maximos[0] - minimos[0];
-        celda->elem.ph = ((celda->elem.ph - minimos[0]) / (dif));
+    dif = maximos[0] - minimos[0];
+    entrada.ph = ((entrada.ph - minimos[0]) / (dif));
 
-        dif = maximos[1] - minimos[1];
-        celda->elem.Hardness = ((celda->elem.Hardness - minimos[1]) / (dif));
+    dif = maximos[1] - minimos[1];
+    entrada.Hardness = ((entrada.Hardness - minimos[1]) / (dif));
 
-        dif = maximos[2] - minimos[2];
-        celda->elem.Solids = ((celda->elem.Solids - minimos[2]) / (dif));
+    dif = maximos[2] - minimos[2];
+    entrada.Solids = ((entrada.Solids - minimos[2]) / (dif));
 
-        dif = maximos[3] - minimos[3];
-        celda->elem.Chloramines = ((celda->elem.Chloramines - minimos[3]) / (dif));
+    dif = maximos[3] - minimos[3];
+    entrada.Chloramines = ((entrada.Chloramines - minimos[3]) / (dif));
 
-        dif = maximos[4] - minimos[4];
-        celda->elem.Sulfate = ((celda->elem.Sulfate - minimos[4]) / (dif));
+    dif = maximos[4] - minimos[4];
+    entrada.Sulfate = ((entrada.Sulfate - minimos[4]) / (dif));
 
-        dif = maximos[5] - minimos[5];
-        celda->elem.Conductivity = ((celda->elem.Conductivity - minimos[5]) / (dif));
+    dif = maximos[5] - minimos[5];
+    entrada.Conductivity = ((entrada.Conductivity - minimos[5]) / (dif));
 
-        dif = maximos[6] - minimos[6];
-        celda->elem.Organic_carbon = ((celda->elem.Organic_carbon - minimos[6]) / (dif));
+    dif = maximos[6] - minimos[6];
+    entrada.Organic_carbon = ((entrada.Organic_carbon - minimos[6]) / (dif));
 
-        dif = maximos[7] - minimos[7];
-        celda->elem.Trihalomethanes = ((celda->elem.Trihalomethanes - minimos[7]) / (dif));
+    dif = maximos[7] - minimos[7];
+    entrada.Trihalomethanes = ((entrada.Trihalomethanes - minimos[7]) / (dif));
 
-        dif = maximos[8] - minimos[8];
-        celda->elem.Turbidity = ((celda->elem.Turbidity - minimos[8]) / (dif));
-
-        ObtenerSiguiente(celda);
-    }
+    dif = maximos[8] - minimos[8];
+    entrada.Turbidity = ((entrada.Turbidity - minimos[8]) / (dif)); 
 }
 
 void CalculaDistancia(ListaDinamica *lista , tipoAgua entrada , tipoMinMonticulo *distancias)
