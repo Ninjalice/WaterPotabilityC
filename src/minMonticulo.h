@@ -1,20 +1,26 @@
 #include <stdbool.h>
+#include "minMonticulo.h"
 
-typedef float tipoElementoMinMonticulo;
+typedef struct {
+	int posicion;
+	float distancia;
+	bool Potability;
+}TipoDistancia;
+
 
 typedef struct tMM{
-	tipoElementoMinMonticulo *array; //array dinamico
+	TipoDistancia *array; //array dinamico
 	int pos; //indice del ultimo indice del monticulo
 	int numEl; // tamaño maximo del monticulo
 }tipoMinMonticulo;
 
 void nuevoMinMonticulo(tipoMinMonticulo *, int);
 
-void insertarMinMonticulo(tipoMinMonticulo *, tipoElementoMinMonticulo);
+void insertarMinMonticulo(tipoMinMonticulo *, TipoDistancia);
 
-void eliminarElemento(tipoMinMonticulo *, tipoElementoMinMonticulo);
+void eliminarElemento(tipoMinMonticulo *, TipoDistancia);
 
-tipoElementoMinMonticulo devolverRaiz(tipoMinMonticulo);
+TipoDistancia devolverRaiz(tipoMinMonticulo);
 
 void mostrarAnchura(tipoMinMonticulo);
 

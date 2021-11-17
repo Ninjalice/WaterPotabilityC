@@ -3,7 +3,7 @@
 
 void intercambiar(tipoMinMonticulo *m, int pos1, int pos2)
 {
-    tipoElementoMinMonticulo aux;
+    TipoDistancia aux;
     aux = m->array[pos2];
     m->array[pos2] = m->array[pos1];
     m->array[pos1] = aux;
@@ -11,12 +11,12 @@ void intercambiar(tipoMinMonticulo *m, int pos1, int pos2)
 
 void nuevoMinMonticulo(tipoMinMonticulo *M, int x)
 {
-    (*M).array = (tipoElementoMinMonticulo *)malloc(x * sizeof(tipoElementoMinMonticulo));
+    (*M).array = (TipoDistancia *)malloc(x * sizeof(TipoDistancia));
     (*M).numEl = x;
     (*M).pos = -1;
 }
 
-void insertarMinMonticulo(tipoMinMonticulo *M, tipoElementoMinMonticulo e)
+void insertarMinMonticulo(tipoMinMonticulo *M, TipoDistancia e)
 {
     int aux;
     M->pos++;
@@ -29,7 +29,7 @@ void insertarMinMonticulo(tipoMinMonticulo *M, tipoElementoMinMonticulo e)
     }
 }
 
-void eliminarElemento(tipoMinMonticulo *M, tipoElementoMinMonticulo e)
+void eliminarElemento(tipoMinMonticulo *M, TipoDistancia e)
 {
     int i;
     i = 0;
@@ -60,7 +60,7 @@ void eliminarElemento(tipoMinMonticulo *M, tipoElementoMinMonticulo e)
     else
         printf("El elemento no esta en el monticulo\n");
 }
-tipoElementoMinMonticulo devolverRaiz(tipoMinMonticulo M)
+TipoDistancia devolverRaiz(tipoMinMonticulo M)
 {
     return (M.array[0]);
 }

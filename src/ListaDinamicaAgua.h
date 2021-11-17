@@ -22,8 +22,7 @@ typedef struct
 typedef struct celdaL
 {
     tipoAgua elem;
-    struct celdaL *sig;
-    struct celdaL *ant;
+    struct celdaL *sig;    
 } celdaLista;
 
 typedef struct 

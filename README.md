@@ -3,7 +3,9 @@ A water potability algotithm
 
 
 ToDo:
--Normalizar
--Recorrido
+
+-Distancias
 -knn
 -Interaccion Usuario
+
+-Wilson
