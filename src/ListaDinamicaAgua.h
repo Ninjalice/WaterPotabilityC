@@ -1,8 +1,7 @@
-#include <stdio.h>
-#include <stdlib.h>
+#ifndef LISTA_DINAMICA
+#define LISTA_DINAMICA
+
 #include <stdbool.h>
-#include <string.h>
-#include <math.h>
 
 typedef struct
 {
@@ -22,7 +21,8 @@ typedef struct
 typedef struct celdaL
 {
     tipoAgua elem;
-    struct celdaL *sig;    
+    struct celdaL *sig;
+    struct celdaL *ant;
 } celdaLista;
 
 typedef struct 
@@ -41,11 +41,14 @@ void errorLista(char s[]);
 
 void insertarEnLista(ListaDinamica *l, tipoAgua elemento);
 
-void PrimeraCeldaLista(ListaDinamica l, celdaLista *celda);
+void PrimeraCeldaLista(ListaDinamica *l, celdaLista *celda);
+
+void eliminarElemento(ListaDinamica *l, int posicion);
 
 void ObtenerSiguiente(celdaLista *celda);
-
 
 tipoAgua mostrarElementoCelda(celdaLista *celda);
 
 bool esNulaLista(ListaDinamica l);
+
+#endif

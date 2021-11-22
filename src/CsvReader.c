@@ -1,16 +1,19 @@
+
+#include <stdlib.h>
+#include <string.h>
 #include "CsvReader.h"
 
 // leer datos del archivo csv
-void LeerCSV(char *csvFilePath, ListaDinamica *lista)
+void LeerCSV(const char *csvFilePath, ListaDinamica *lista)
 {
-    FILE *filePointer;    
+    FILE *filePointer;
 
-    filePointer = fopen(argv[1], "r");
+    filePointer = fopen(csvFilePath, "r");
 
     //Check file
     if (filePointer == NULL)
     {
-        printf("%s file failed to open.", argv[1]);
+        printf("%s file failed to open.", csvFilePath);
     }
     else
     {
@@ -18,6 +21,7 @@ void LeerCSV(char *csvFilePath, ListaDinamica *lista)
 
         char *line = NULL; 
         size_t bufsize = 0; //buffer para el getline
+        char *pt;
         int contLineas = 0;
         int numAtributos = contarAtributos(filePointer); //Usamos la primera linea para contar el numero de atributos.
         float elementos[numAtributos - 1]; //Usamos -1 ya que el ultimo atributo es la categoria
@@ -31,17 +35,18 @@ void LeerCSV(char *csvFilePath, ListaDinamica *lista)
             {                
                 if (i < (numAtributos-1) )
                 {
-                    float a = atof(pt);
+                    float a = atof(pt);                    
                     elementos[i] = a;
                 }
                 else
                 {
                     espotable = atoi(pt);
-                }                
+                }                            
                 pt = strtok(NULL, ",");
                 i++;
             }
-            insertarEnLista(lista, insertarEnAgua(elementos, espotable));
+            tipoAgua elemento = insertarEnAgua(elementos, espotable);
+            insertarEnLista(lista, elemento);
             contLineas = contLineas + 1;
         }
         lista->numeroAguas = contLineas;
@@ -56,8 +61,10 @@ void LeerCSV(char *csvFilePath, ListaDinamica *lista)
 
 int contarAtributos(FILE *filePointer)
 {
+    printf("contarAtributos\n");
     char *line = NULL;
     int numAtributos = 0;
+    size_t bufsize = 0;
     char *pt;
 
     getline(&line, &bufsize, filePointer);
@@ -66,14 +73,13 @@ int contarAtributos(FILE *filePointer)
     {
         numAtributos++;
         pt = strtok(NULL, ",");
-    }
-    free(line);
+    }    
     return numAtributos;
 }
 
 tipoAgua insertarEnAgua(float elementos[], bool espotable)
 {
-    tipoAgua agua;
+    tipoAgua agua;        
     agua.ph  = elementos[0];
     agua.Hardness = elementos[1];
     agua.Solids = elementos[2];
@@ -84,5 +90,6 @@ tipoAgua insertarEnAgua(float elementos[], bool espotable)
     agua.Trihalomethanes = elementos[7];
     agua.Turbidity = elementos[8];
     agua.Potability = espotable;
+    
     return agua;
 }

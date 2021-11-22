@@ -1,16 +1,17 @@
-#include "normalizar.h"
 #include <math.h>
+#include <stdbool.h>
+#include <stddef.h>
+#include <stdio.h>
+#include "normalizar.h"
 
-void ObtenerMaxMins(ListaDinamica *lista, float maximos[], float minimos[]) // valornormalizado = ((valor - min)/ dif) siendo dif = max - min;
+void ObtenerMaxMins(ListaDinamica *lista, float maximos[], float minimos[]) 
 {
-    float dif;
     celdaLista *celda;
-    PrimeraCeldaLista(lista, celda);
-    InicializarMaxMins(celda, maximos,minimos);
-    ObtenerSiguiente(celda);
-    for (int i = 0; i < (lista->numeroAguas - 1); i++)
+    celda = lista->ini;
+    InicializarMaxMins(celda, maximos, minimos);
+    while (celda != NULL)
     {
-        //MINIMOS
+        // MINIMOS
         if (minimos[0] > celda->elem.ph)
         {
             minimos[0] = celda->elem.ph;
@@ -43,12 +44,12 @@ void ObtenerMaxMins(ListaDinamica *lista, float maximos[], float minimos[]) // v
         {
             minimos[7] = celda->elem.Trihalomethanes;
         }
-        if (minimos[7] > celda->elem.Turbidity)
+        if (minimos[8] > celda->elem.Turbidity)
         {
-            minimos[7] = celda->elem.Turbidity;
+            minimos[8] = celda->elem.Turbidity;
         }
 
-        //MAXIMOS
+        // MAXIMOS
         if (maximos[0] < celda->elem.ph)
         {
             maximos[0] = celda->elem.ph;
@@ -81,18 +82,18 @@ void ObtenerMaxMins(ListaDinamica *lista, float maximos[], float minimos[]) // v
         {
             maximos[7] = celda->elem.Trihalomethanes;
         }
-        if (maximos[7] < celda->elem.Turbidity)
+        if (maximos[8] < celda->elem.Turbidity)
         {
-            maximos[7] = celda->elem.Turbidity;
+            maximos[8] = celda->elem.Turbidity;
         }
 
-        ObtenerSiguiente(celda);
+        celda = celda->sig;
     }
-    
 }
 
 void InicializarMaxMins(celdaLista *celda, float maximos[], float minimos[])
 {
+    printf("InicializarMaxMins\n");
     minimos[0] = celda->elem.ph;
     minimos[1] = celda->elem.Hardness;
     minimos[2] = celda->elem.Solids;
@@ -114,13 +115,14 @@ void InicializarMaxMins(celdaLista *celda, float maximos[], float minimos[])
     maximos[8] = celda->elem.Turbidity;
 }
 
-void normalizar(ListaDinamica *lista, float maximos[], float minimos[]) // valornormalizado = ((valor - min)/ dif) siendo dif = max - min;
+void normalizar(ListaDinamica *lista, float maximos[], float minimos[]) 
 {
+    printf("normalizar\n");
     float dif;
     celdaLista *celda;
-    PrimeraCeldaLista(lista, celda);    
+    celda = lista->ini;
     ObtenerMaxMins(lista, maximos, minimos);
-    for (int i = 0; i < (lista->numeroAguas - 1); i++)
+    while (celda != NULL)
     {
         dif = maximos[0] - minimos[0];
         celda->elem.ph = ((celda->elem.ph - minimos[0]) / (dif));
@@ -149,65 +151,124 @@ void normalizar(ListaDinamica *lista, float maximos[], float minimos[]) // valor
         dif = maximos[8] - minimos[8];
         celda->elem.Turbidity = ((celda->elem.Turbidity - minimos[8]) / (dif));
 
-        ObtenerSiguiente(celda);
+        celda = celda->sig;
     }
 }
 
-void normalizarEntrada(tipoAgua entrada, float maximos[], float minimos[]) // valornormalizado = ((valor - min)/ dif) siendo dif = max - min;
+void normalizarEntrada(tipoAgua *entrada, float maximos[], float minimos[]) 
 {
+    printf("normalizarEntrada\n");
+    float dif;
     dif = maximos[0] - minimos[0];
-    entrada.ph = ((entrada.ph - minimos[0]) / (dif));
+    entrada->ph = ((entrada->ph - minimos[0]) / (dif));
 
     dif = maximos[1] - minimos[1];
-    entrada.Hardness = ((entrada.Hardness - minimos[1]) / (dif));
+    entrada->Hardness = ((entrada->Hardness - minimos[1]) / (dif));
 
     dif = maximos[2] - minimos[2];
-    entrada.Solids = ((entrada.Solids - minimos[2]) / (dif));
+    entrada->Solids = ((entrada->Solids - minimos[2]) / (dif));
 
     dif = maximos[3] - minimos[3];
-    entrada.Chloramines = ((entrada.Chloramines - minimos[3]) / (dif));
+    entrada->Chloramines = ((entrada->Chloramines - minimos[3]) / (dif));
 
     dif = maximos[4] - minimos[4];
-    entrada.Sulfate = ((entrada.Sulfate - minimos[4]) / (dif));
+    entrada->Sulfate = ((entrada->Sulfate - minimos[4]) / (dif));
 
     dif = maximos[5] - minimos[5];
-    entrada.Conductivity = ((entrada.Conductivity - minimos[5]) / (dif));
+    entrada->Conductivity = ((entrada->Conductivity - minimos[5]) / (dif));
 
     dif = maximos[6] - minimos[6];
-    entrada.Organic_carbon = ((entrada.Organic_carbon - minimos[6]) / (dif));
+    entrada->Organic_carbon = ((entrada->Organic_carbon - minimos[6]) / (dif));
 
     dif = maximos[7] - minimos[7];
-    entrada.Trihalomethanes = ((entrada.Trihalomethanes - minimos[7]) / (dif));
+    entrada->Trihalomethanes = ((entrada->Trihalomethanes - minimos[7]) / (dif));
 
     dif = maximos[8] - minimos[8];
-    entrada.Turbidity = ((entrada.Turbidity - minimos[8]) / (dif)); 
+    entrada->Turbidity = ((entrada->Turbidity - minimos[8]) / (dif));
 }
 
-void CalculaDistancia(ListaDinamica *lista , tipoAgua entrada , tipoMinMonticulo *distancias)
+
+void CalculaDistancia(ListaDinamica *lista, tipoAgua entrada, tipoMaxMonticulo *distancias, int n)
 {
-    float distancia;
+    float distancia;    
     TipoDistancia elementoDistancia;
     celdaLista *celda;
-    PrimeraCeldaLista(lista, celda);
-    for(int i = 0; i < lista->numeroAguas ; i++)
-    {
-        distancia = pow(celda->elem.ph - entrada.ph , 2);
-        distancia = distancia +  pow(celda->elem.Hardness - entrada.Hardness , 2);
-        distancia = distancia +  pow(celda->elem.Solids - entrada.Solids , 2);
-        distancia = distancia +  pow(celda->elem.Chloramines - entrada.Chloramines , 2);
-        distancia = distancia +  pow(celda->elem.Sulfate - entrada.Sulfate , 2);
-        distancia = distancia +  pow(celda->elem.Conductivity - entrada.Conductivity , 2);
-        distancia = distancia +  pow(celda->elem.Organic_carbon - entrada.Organic_carbon , 2);
-        distancia = distancia +  pow(celda->elem.Trihalomethanes - entrada.Trihalomethanes , 2);
-        distancia = distancia +  pow(celda->elem.Turbidity - entrada.Turbidity , 2);  
-        
-        distancia = sqrt(aux);
+    int i = 0;
+    celda = lista->ini;   
+    printf("%.2f",entrada.ph);
+    while (celda != NULL)
+    {        
+        distancia = pow(celda->elem.ph - entrada.ph, 2);
+        distancia = distancia + pow(celda->elem.Hardness - entrada.Hardness, 2);
+        distancia = distancia + pow(celda->elem.Solids - entrada.Solids, 2);
+        distancia = distancia + pow(celda->elem.Chloramines - entrada.Chloramines, 2);
+        distancia = distancia + pow(celda->elem.Sulfate - entrada.Sulfate, 2);
+        distancia = distancia + pow(celda->elem.Conductivity - entrada.Conductivity, 2);
+        distancia = distancia + pow(celda->elem.Organic_carbon - entrada.Organic_carbon, 2);
+        distancia = distancia + pow(celda->elem.Trihalomethanes - entrada.Trihalomethanes, 2);
+        distancia = distancia + pow(celda->elem.Turbidity - entrada.Turbidity, 2);
+
+        distancia = sqrt(distancia);
+        //printf("Distancia: %.2f \n", distancia);
         elementoDistancia.distancia = distancia;
-        elementoDistancia.indice = i;
+        elementoDistancia.posicion = i;
         elementoDistancia.Potability = celda->elem.Potability;
 
-        insertarMinMonticulo(distancias, elementoDistancia);
-        ObtenerSiguiente(celda);
-    }  
+        if (esVacio(*distancias))
+        {
+            insertarMaxMonticulo(distancias, elementoDistancia);
+            printf("\n Vacio - Insertar \n");
+            //printf("Despues de insertarMaxMonticulo: ");
+            //mostrarAnchura(*distancias);
+        }
+        else
+        {
+            if (estaLleno(*distancias))
+            {
+                
+                eliminarElementoRaiz(distancias);                
+                insertarMaxMonticulo(distancias, elementoDistancia);
+                //printf("\n Eliminar - Insertar \n");
+            }
+            else
+            {
+                printf("\n NoLLeno - Insertar \n");
+                insertarMaxMonticulo(distancias, elementoDistancia);
+                //printf("Despues de insertarMaxMonticulo: ");
+                //mostrarAnchura(*distancias);
+            }
+                        
+            
+        }        
+        celda = celda->sig;
+        i++;
+    }
+    mostrarAnchura(*distancias);
+}
+
+
+void mostrar(ListaDinamica *lista)
+{    
+    celdaLista *celda;
+    celda = lista->ini;
+    int i = 0;
+    
+    while(celda != NULL)
+    {
+        printf("CELDA: ");
+        printf(" %.2f ", celda->elem.ph);
+        printf(" %.2f ", celda->elem.Hardness);
+        printf(" %.2f ", celda->elem.Solids);
+        printf(" %.2f ", celda->elem.Chloramines);
+        printf(" %.2f ", celda->elem.Sulfate);
+        printf(" %.2f ", celda->elem.Conductivity);
+        printf(" %.2f ", celda->elem.Organic_carbon);
+        printf(" %.2f ", celda->elem.Trihalomethanes);
+        printf(" %.2f ", celda->elem.Turbidity);
+        printf(" %s \n", celda->elem.Potability ? "true" : "false");
+
+        celda = celda->sig;
+    }
+    
     
 }

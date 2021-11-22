@@ -1,4 +1,7 @@
 #include "ListaDinamicaAgua.h"
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
 
 void nuevaLista(ListaDinamica *l)
 {
@@ -14,11 +17,12 @@ void errorLista(char s[])
     exit(1);
 }
 
+
 void insertarEnLista(ListaDinamica *l, tipoAgua elemento)
 {
     celdaLista *nuevo;
     nuevo = (celdaLista *)malloc(sizeof(celdaLista));
-    nuevo->elem = elemento;
+    nuevo->elem = elemento;    
     if (esNulaLista(*l))
     {
         nuevo->sig = NULL;
@@ -31,16 +35,62 @@ void insertarEnLista(ListaDinamica *l, tipoAgua elemento)
         nuevo->ant = l->fin;
         nuevo->sig = NULL;
     }
-    l->fin = nuevo;
+    l->fin = nuevo;    
 }
 
-void PrimeraCeldaLista(ListaDinamica l , celdaLista *celda)
+void eliminarElemento(ListaDinamica *l, int posicion)
 {
-    if (esNulaLista(l))
+    
+    if (esNulaLista(*l))
+    {
+        errorLista("No se puede eliminar elemento de lista.");
+    }
+    else
+    {
+        celdaLista *celda;
+        int i;
+        celda = l->ini;
+        while (celda != NULL && i < posicion)
+        {
+            i = i++;
+            celda = celda->sig;
+        }
+        if (i != posicion)
+        {
+            errorLista("No se puede eliminar elemento de lista en la posicion dada.");
+        }
+        else
+        {
+            if(celda->ant == NULL)
+            {                
+                celda->sig->ant = NULL;
+                l->ini = celda->sig;                
+            }
+            else if (celda->sig == NULL)
+            {
+                celda->ant->sig = NULL;
+                l->fin = celda->ant;                
+            }
+            else
+            {
+                celda->ant->sig = celda->sig;
+                celda->sig->ant = celda->ant;
+            }
+            l->numeroAguas = l->numeroAguas - 1;
+            free(celda);
+        }
+            
+    }
+    
+}
+
+void PrimeraCeldaLista(ListaDinamica *l , celdaLista *celda)
+{    
+    if (esNulaLista(*l))
         errorLista("No se puede obtener elemento.");
     else
     {        
-        celda = l.ini;
+        celda = l->ini;
     }
 }
 
