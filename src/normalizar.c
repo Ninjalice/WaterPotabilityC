@@ -156,8 +156,7 @@ void normalizar(ListaDinamica *lista, float maximos[], float minimos[])
 }
 
 void normalizarEntrada(tipoAgua *entrada, float maximos[], float minimos[]) 
-{
-    printf("normalizarEntrada\n");
+{    
     float dif;
     dif = maximos[0] - minimos[0];
     entrada->ph = ((entrada->ph - minimos[0]) / (dif));
@@ -194,8 +193,7 @@ void CalculaDistancia(ListaDinamica *lista, tipoAgua entrada, tipoMaxMonticulo *
     TipoDistancia elementoDistancia;
     celdaLista *celda;
     int i = 0;
-    celda = lista->ini;   
-    printf("%.2f",entrada.ph);
+    celda = lista->ini;       
     while (celda != NULL)
     {        
         distancia = pow(celda->elem.ph - entrada.ph, 2);
@@ -209,35 +207,30 @@ void CalculaDistancia(ListaDinamica *lista, tipoAgua entrada, tipoMaxMonticulo *
         distancia = distancia + pow(celda->elem.Turbidity - entrada.Turbidity, 2);
 
         distancia = sqrt(distancia);
-        //printf("Distancia: %.2f \n", distancia);
+        printf(" %.2f \n", distancia);
         elementoDistancia.distancia = distancia;
         elementoDistancia.posicion = i;
-        elementoDistancia.Potability = celda->elem.Potability;
-
+        elementoDistancia.Potability = celda->elem.Potability;        
+        
         if (esVacio(*distancias))
         {
-            insertarMaxMonticulo(distancias, elementoDistancia);
-            printf("\n Vacio - Insertar \n");
-            //printf("Despues de insertarMaxMonticulo: ");
-            //mostrarAnchura(*distancias);
+            insertarMaxMonticulo(distancias, elementoDistancia);                       
         }
         else
         {
             if (estaLleno(*distancias))
-            {
-                
-                eliminarElementoRaiz(distancias);                
-                insertarMaxMonticulo(distancias, elementoDistancia);
-                //printf("\n Eliminar - Insertar \n");
+            {                
+                if (devolverRaiz(*distancias).distancia > elementoDistancia.distancia)
+                {
+                    eliminarElementoRaiz(distancias);
+                    insertarMaxMonticulo(distancias, elementoDistancia);
+                }                              
+                               
             }
             else
-            {
-                printf("\n NoLLeno - Insertar \n");
-                insertarMaxMonticulo(distancias, elementoDistancia);
-                //printf("Despues de insertarMaxMonticulo: ");
-                //mostrarAnchura(*distancias);
-            }
-                        
+            {                
+                insertarMaxMonticulo(distancias, elementoDistancia);                
+            }                        
             
         }        
         celda = celda->sig;
