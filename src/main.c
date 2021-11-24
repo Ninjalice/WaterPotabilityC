@@ -93,6 +93,8 @@ void knn(int n, const char *dirfichero, tipoAgua entrada)
     printf("La distancia minima esta en la posicion %d y tiene un valor de  %.2f \n",distanciaMinima.posicion , distanciaMinima.distancia);
     printf("RESULTADO FINAL:\n");
     printf("POTABILIDAD: %s \n", distanciaMinima.Potability ? "true" : "false");
+
+    probabilidad(&datos);
 }
 
 void wilson(ListaDinamica *datos , int n)
@@ -128,7 +130,30 @@ void wilson(ListaDinamica *datos , int n)
 
 void probabilidad(ListaDinamica *datos)
 {
-    //Probabilidad
+    int elementosAcertados = 0;   
+    bool espotable = NULL;
+    tipoMaxMonticulo maxMonticulo;
+    TipoDistancia distanciaMinima;
+    float maximos[datos->numAtributos - 1];
+    float minimos[datos->numAtributos - 1];
+    celdaLista *celda;
+    int posicion = 0;
+    normalizar(datos, maximos, minimos);
+    celda = datos->fin;    
+    while (celda != NULL)
+    {
+        eliminarElemento(datos, posicion);
+        CalculaDistancia(datos, celda->elem, &maxMonticulo, n);
+        espotable = esPotable(maxMonticulo.array, n).Potability;        
+        if(espotable == celda->elem.Potability)
+        {
+            elementosAcertados++;
+        }          
+        insertarEnLista(datos, celda->elem);   
+        posicion++;
+        celda = celda->ant;
+    }
+    printf("La probabilidad es %.2f\n", (elementosAcertados/datos->numeroAguas)));
 }
 
 int main(int argc, char const *argv[])
@@ -146,6 +171,7 @@ int main(int argc, char const *argv[])
     entrada.Turbidity = 2.43;    
     
     knn(atoi(argv[2]), argv[1], entrada);
+    
 
     return 0;
 }
