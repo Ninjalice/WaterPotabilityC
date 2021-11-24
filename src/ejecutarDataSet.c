@@ -10,11 +10,12 @@
 int main(int argc, char** argv) 
 { 
         FILE *archivo; 
-        int opcion;
+        int opcion, n;
         char archivo[32];
         ListaDinamica lista;
         float max[9], min[9], dato;
         tipoAgua Aguita;
+		n = 1;
      
   
         if (archivo == NULL){ 
@@ -27,8 +28,10 @@ int main(int argc, char** argv)
 				printf("----------MENU-----------\n");
 				printf("0-Elegir CSV\n");
 				printf("1-Introducir dato\n");
-				printf("2-KNN\n");
-				printf("3-Algoritmo de Wilson\n");
+				printf("2-Introduce el numero de distancias a comparar\n")
+				printf("3-KNN\n");
+				printf("4-Algoritmo de Wilson\n");
+				printf("5-Punteria\n")
 				printf("Escoja una opción: ");
 				scanf("%d", &opcion);
 				switch(opcion){
@@ -39,42 +42,43 @@ int main(int argc, char** argv)
 					case 1:
 						printf("Introduzca el ph: ");
 						scanf("%f", &dato);
-						Aguita->ph = dato;
+						Aguita.ph = dato;
 						printf("Introduzca la dureza: ");
 						scanf("%f", &dato);
-						Aguita->Hardness = dato;
+						Aguita.Hardness = dato;
 						printf("Introduzca los solidos: ");
 						scanf("%f", &dato);
-						Aguita->Solids = dato;
-						printf("Introduzca las Cloraminas: ");
+						Aguita.Solids = dato;
+						printf("Introduzca las Cloraminas\n");
 						scanf("%f", &dato);
-						Aguita->Chloramines = dato;
-						printf("Introduzca los sulfatos: ");
+						Aguita.Chloramines = dato;
+						printf("Introduzca los sulfatos\n");
 						scanf("%f", &dato);
-						Aguita->Sulfate = dato;
-						printf("Introduzca la conductividad: ");
+						Aguita.Sulfate = dato;
+						printf("Introduzca la conductividad\n");
 						scanf("%f", &dato);
-						Aguita->Conductivity = dato;
-						printf("Introduzca el carbono organico");
+						Aguita.Conductivity = dato;
+						printf("Introduzca el carbono organico\n");
 						scanf("%f", &dato);
-						Aguita->Organic_carbon = dato;
-						printf("Introduzca los Trihalometanos");
+						Aguita.Organic_carbon = dato;
+						printf("Introduzca los Trihalometanos\n");
 						scanf("%f", &dato);
-						Aguita->Trihalomethanes = dato;
-						printf("Introduzca la turbiedad");
+						Aguita.Trihalomethanes = dato;
+						printf("Introduzca la turbiedad\n");
 						scanf("%f", &dato);
-						if(dato > 4)
-						{
-							printf("Eto ta turbio mi bro");
-						}
-						Aguita->Turbidity = dato;
-						Aguita->Potability = false;
+						Aguita.Turbidity = dato;
+						Aguita.Potability = NULL;
 					case 2:
-						KNN(&lista, archivo, Aguita);
+						printf("Introduce el numero de distancias a comparar\n");
+						scanf("%f", &n);
 					case 3:
-						Wilson(&lista, archivo);
+						knn(n, archivo, Aguita, &lista);
+					case 4:
+						wilson(&lista, n);
+					case 5:
+						probabilidad(&lista);
 						
 				}
-			}while(opcion < 4);
+			}while(opcion < 6 && opcion > 0);
 		}
 }
