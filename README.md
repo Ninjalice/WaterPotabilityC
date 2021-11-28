@@ -1,11 +1,21 @@
 # WaterPotabilityC
-A water potability algotithm
+A knn algotithm for computing water potability
+
+### Compile the program:
+
+```bash
+make
+```
+
+### Run the program:
+
+```bash
+./main
+```
 
 
-ToDo:
+ 
+![water](water.png)
 
--Distancias
--knn
--Interaccion Usuario
-
--Wilson
+----
+Created by  Karolina Maria Bodziony, Wassim Bouzarhoun, Andrés Bastida nad Endika Aguirre.
