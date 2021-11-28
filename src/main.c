@@ -106,15 +106,14 @@ int main(int argc, char **argv)
 			entrada.Turbidity = 4.63;
 			entrada.Potability = NULL;
 			break;		
-		case 7:
-			normalizar(&datos, maximos, minimos);
+		case 7:			
 			printf("El numero mas optimo para K es %d \n", ObtenerMejorN(&datos));					
 			break;
 		case 8:
-			printf("Se han eliminado %d elementos \n", wilson(&datos, n));
+			printf("Se han eliminado %d elementos \n", wilson(&datos, 22));
 			break;
 		case 9:
-			printf("La probabilidad es %.5f \n", probabilidad(&datos, n));
+			printf("La probabilidad es %.5f \n", probabilidad(&datos, 22));
 			break;
 		case 10:
 			mostrar(&datos);
