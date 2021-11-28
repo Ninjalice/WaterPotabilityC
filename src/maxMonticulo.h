@@ -25,6 +25,8 @@ void eliminarElementoRaiz(tipoMaxMonticulo *);
 
 TipoDistancia devolverRaiz(tipoMaxMonticulo);
 
+void borrarMonticulo(tipoMaxMonticulo *M);
+
 void mostrarAnchura(tipoMaxMonticulo);
 
 bool esVacio(tipoMaxMonticulo);

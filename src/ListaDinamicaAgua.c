@@ -48,20 +48,25 @@ void eliminarElemento(ListaDinamica *l, int posicion)
     else
     {
         celdaLista *celda;
-        int i;
+        int i = 0;        
         celda = l->ini;
         while (celda != NULL && i < posicion)
-        {
-            i = i++;
+        {            
+            i = i + 1;
             celda = celda->sig;
-        }
+        }        
         if (i != posicion)
         {
             errorLista("No se puede eliminar elemento de lista en la posicion dada.");
         }
         else
         {
-            if(celda->ant == NULL)
+            if (celda->ant == NULL && celda->sig == NULL)
+            {
+                l->ini = NULL;
+                l->fin = NULL;
+            }
+            else if(celda->ant == NULL)
             {                
                 celda->sig->ant = NULL;
                 l->ini = celda->sig;                
@@ -82,26 +87,6 @@ void eliminarElemento(ListaDinamica *l, int posicion)
             
     }
     
-}
-
-void PrimeraCeldaLista(ListaDinamica *l , celdaLista *celda)
-{    
-    if (esNulaLista(*l))
-        errorLista("No se puede obtener elemento.");
-    else
-    {        
-        celda = l->ini;
-    }
-}
-
-void ObtenerSiguiente(celdaLista *celda)
-{
-    if (celda == NULL)
-        errorLista("No se puede obtener elemento.");
-    else
-    {
-        celda = celda->sig;
-    }
 }
 
 tipoAgua mostrarElementoCelda(celdaLista *celda)

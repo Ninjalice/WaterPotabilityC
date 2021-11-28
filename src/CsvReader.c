@@ -17,7 +17,7 @@ void LeerCSV(const char *csvFilePath, ListaDinamica *lista)
     }
     else
     {
-        printf("The file is now opened.\n");
+        printf("El fichero se ha abierto correctamente.\n");
 
         char *line = NULL; 
         size_t bufsize = 0; //buffer para el getline
@@ -50,12 +50,10 @@ void LeerCSV(const char *csvFilePath, ListaDinamica *lista)
             contLineas = contLineas + 1;
         }
         lista->numeroAguas = contLineas;
-        printf("Hemos leido %d lineas", contLineas);
+        printf("Hemos leido %d lineas \n", contLineas);
         free(line);
-        fclose(filePointer);
-
-        printf("Data successfully read\n");
-        printf("The file is now closed. \n");
+        fclose(filePointer);        
+        printf("El fichero se ha cerrado correctamente. \n");
     }    
 }
 

@@ -1,177 +1,129 @@
 #include <stdio.h>
-#include <string.h>
-#include <stdbool.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
+#include <math.h>
 #include "CsvReader.h"
+#include "ListaDinamicaAgua.h"
 #include "normalizar.h"
-#include "maxMonticulo.h"
+#include "knn.h"
 
-
-
-TipoDistancia esPotable(TipoDistancia distancias[], int n)
+int main(int argc, char **argv)
 {
-    int potable = 0;
-    int noPotable = 0;
-    TipoDistancia distanciaMenor = distancias[0];
-    for (int i = 0; i < n; i++)
-    {
-        if (distanciaMenor.distancia > distancias[i].distancia)
-        {
-            distanciaMenor = distancias[i];
-        }
-        if (distancias[i].Potability)
-        {
-            potable++;
-        }
-        else
-        {
-            noPotable++;
-        }
-    }
-    printf("Numero de no potable: %d\n", noPotable);
-    printf("Numero de potable: %d\n", potable);
-    if(potable == noPotable)
-    {
-        return distanciaMenor;
-    }
-    else
-    {        
-        for (int i = 0; i < n; i++)
-        {
-            if (potable > noPotable && distancias[i].Potability == true)
-            {
-                if (distanciaMenor.Potability == false)
-                {
-                    distanciaMenor = distancias[i];
-                }
-                
-                if (distanciaMenor.distancia > distancias[i].distancia)
-                {
-                    distanciaMenor = distancias[i];
-                }
-            }
-            else if (noPotable > potable && distancias[i].Potability == false)
-            {
-                if (distanciaMenor.Potability == true)
-                {
-                    distanciaMenor = distancias[i];
-                }
-                if (distanciaMenor.distancia > distancias[i].distancia)
-                {
-                    distanciaMenor = distancias[i];
-                }
-            }
-        }
-        return distanciaMenor;
-    }    
-    
-}
+	int opcion, n;
+	char archivo[128];
+	ListaDinamica datos;
+	float maximos[9], minimos[9], dato;
+	tipoAgua entrada;
+	n = 1;
+	printf("\n\n----------WaterPotability-----------\n");
+	printf("Programa creado por Wassim, Karolina, Andres y Endika\n");
+	printf("Gracias por usarlo!\n");
+	printf("\n\n------------------------------------\n");
+	do
+	{		
+		printf("\n\n----------------MENU----------------\n");
+		printf("0-Elegir CSV (Nombre del fichero)\n");
+		printf("1-Introducir dato\n");
+		printf("2-Introduce el numero de distancias a comparar\n");
+		printf("3-KNN (Debes introducir antes la K usando el menu 2)\n");
+		printf("4-Algoritmo de Wilson (Debes introducir antes la K usando el menu 2)\n");
+		printf("5-Probabilidad\n");
+		printf("6-Entrada Automatica (Para hacer tests)\n");
+		printf("7-K optima (Puede tardar minutos en calcular)\n");
+		printf("8-Wilson optimo\n");
+		printf("9-Probabilidad optima\n");
+		printf("10-Mostrar datos\n");
+		printf("11-Normalizar datos\n");
+		printf("99-EXIT\n");
+		printf("------------------------------------\n\n");
+		printf("Escoja una opción: ");
+		scanf("%d", &opcion);
+		printf("\n------------------------------------\n\n");
 
-void knn(int n, const char *dirfichero, tipoAgua entrada)
-{
-    ListaDinamica datos;    
-    bool espotable = NULL;
-    tipoMaxMonticulo maxMonticulo;
-    TipoDistancia distanciaMinima;
-    nuevaLista(&datos);
-    nuevoMaxMonticulo(&maxMonticulo, n);
-    LeerCSV(dirfichero, &datos);
+		switch (opcion)
+		{
+		case 0:
+			printf("Introduzca el nombre del archivo: ");
+			scanf("%s", archivo);
+			printf("\n-------------------------\n\n");
+			nuevaLista(&datos);
+			LeerCSV(archivo, &datos);
+			break;
+		case 1:
+			printf("Introduzca el ph: ");
+			scanf("%f", &dato);
+			entrada.ph = dato;
+			printf("Introduzca la dureza: ");
+			scanf("%f", &dato);
+			entrada.Hardness = dato;
+			printf("Introduzca los solidos: ");
+			scanf("%f", &dato);
+			entrada.Solids = dato;
+			printf("Introduzca las Cloraminas\n");
+			scanf("%f", &dato);
+			entrada.Chloramines = dato;
+			printf("Introduzca los sulfatos\n");
+			scanf("%f", &dato);
+			entrada.Sulfate = dato;
+			printf("Introduzca la conductividad\n");
+			scanf("%f", &dato);
+			entrada.Conductivity = dato;
+			printf("Introduzca el carbono organico\n");
+			scanf("%f", &dato);
+			entrada.Organic_carbon = dato;
+			printf("Introduzca los Trihalometanos\n");
+			scanf("%f", &dato);
+			entrada.Trihalomethanes = dato;
+			printf("Introduzca la turbiedad\n");
+			scanf("%f", &dato);
+			entrada.Turbidity = dato;
+			entrada.Potability = NULL;
+			break;
+		case 2:
+			printf("Introduce el numero de distancias a comparar\n");
+			scanf("%d", &n);
+			printf("Distancias a comparar: %d \n", n);
+			break;
+		case 3:
+			knn(n, entrada, &datos);
+			break;
+		case 4:
+			printf("Se han eliminado %d elementos \n", wilson(&datos, n));
+			break;
+		case 5:
+			printf("La probabilidad es %.5f \n", probabilidad(&datos, n));
+			break;
+		case 6:
+			entrada.ph = 8.32;
+			entrada.Hardness = 214.37;
+			entrada.Solids = 22018.42;
+			entrada.Chloramines = 8.06;
+			entrada.Sulfate = 356.89;
+			entrada.Conductivity = 363.27;
+			entrada.Organic_carbon = 18.44;
+			entrada.Trihalomethanes = 100.34;
+			entrada.Turbidity = 4.63;
+			entrada.Potability = NULL;
+			break;		
+		case 7:
+			normalizar(&datos, maximos, minimos);
+			printf("El numero mas optimo para K es %d \n", ObtenerMejorN(&datos));					
+			break;
+		case 8:
+			printf("Se han eliminado %d elementos \n", wilson(&datos, n));
+			break;
+		case 9:
+			printf("La probabilidad es %.5f \n", probabilidad(&datos, n));
+			break;
+		case 10:
+			mostrar(&datos);
+			break;
+		case 11:
+			normalizar(&datos, maximos, minimos);
+			printf("Los datos han sido normalizados pulse 10 para mostrarlos\n");
+			break;
 
-    float maximos[datos.numAtributos - 1];
-    float minimos[datos.numAtributos - 1];
-
-    //mostrar(&datos);
-    normalizar(&datos, maximos, minimos);
-    //mostrar(&datos);
-    //printf("MOSTRAR\n");
-    normalizarEntrada(&entrada, maximos,minimos);
-    printf("Entrada normalizada\n");
-    CalculaDistancia(&datos, entrada, &maxMonticulo,n);
-    
-    distanciaMinima = esPotable(maxMonticulo.array, n);
-
-    printf("La distancia minima esta en la posicion %d y tiene un valor de  %.2f \n",distanciaMinima.posicion , distanciaMinima.distancia);
-    printf("RESULTADO FINAL:\n");
-    printf("POTABILIDAD: %s \n", distanciaMinima.Potability ? "true" : "false");
-
-    probabilidad(&datos);
-}
-
-void wilson(ListaDinamica *datos , int n)
-{
-    int elementosEliminados = 0;    
-    bool espotable = NULL;
-    tipoMaxMonticulo maxMonticulo;
-    TipoDistancia distanciaMinima;
-    float maximos[datos->numAtributos - 1];
-    float minimos[datos->numAtributos - 1];
-    celdaLista *celda;
-    int posicion = 0;
-    normalizar(datos, maximos, minimos);
-    celda = datos->fin;    
-    while (celda != NULL)
-    {
-        eliminarElemento(datos, posicion);
-        CalculaDistancia(datos, celda->elem, &maxMonticulo, n);
-        espotable = esPotable(maxMonticulo.array, n).Potability;
-        if(espotable == celda->elem.Potability)
-        {
-            insertarEnLista(datos, celda->elem);
-        }  
-        else
-        {
-            elementosEliminados++;
-        }      
-        posicion++;
-        celda = celda->ant;
-    }
-    printf("Se han eliminado %d elementos\n", elementosEliminados);
-}
-
-void probabilidad(ListaDinamica *datos)
-{
-    int elementosAcertados = 0;   
-    bool espotable = NULL;
-    tipoMaxMonticulo maxMonticulo;
-    TipoDistancia distanciaMinima;
-    float maximos[datos->numAtributos - 1];
-    float minimos[datos->numAtributos - 1];
-    celdaLista *celda;
-    int posicion = 0;
-    normalizar(datos, maximos, minimos);
-    celda = datos->fin;    
-    while (celda != NULL)
-    {
-        eliminarElemento(datos, posicion);
-        CalculaDistancia(datos, celda->elem, &maxMonticulo, n);
-        espotable = esPotable(maxMonticulo.array, n).Potability;        
-        if(espotable == celda->elem.Potability)
-        {
-            elementosAcertados++;
-        }          
-        insertarEnLista(datos, celda->elem);   
-        posicion++;
-        celda = celda->ant;
-    }
-    printf("La probabilidad es %.2f\n", (elementosAcertados/datos->numeroAguas)));
-}
-
-int main(int argc, char const *argv[])
-{
-    int n;
-    tipoAgua entrada;
-    entrada.ph = 7.65;
-    entrada.Hardness = 236.9;
-    entrada.Solids = 14245.7;
-    entrada.Chloramines = 6.29;
-    entrada.Sulfate = 373.16;
-    entrada.Conductivity = 416.62;
-    entrada.Organic_carbon = 10.46;
-    entrada.Trihalomethanes = 85.85;
-    entrada.Turbidity = 2.43;    
-    
-    knn(atoi(argv[2]), argv[1], entrada);
-    
-
-    return 0;
+		}
+	} while (opcion < 12 && opcion >= 0);
 }

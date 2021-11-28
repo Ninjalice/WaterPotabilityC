@@ -4,6 +4,8 @@ A water potability algotithm
 
 ToDo:
 
-- Probability
+-Distancias
+-knn
 -Interaccion Usuario
 
+-Wilson

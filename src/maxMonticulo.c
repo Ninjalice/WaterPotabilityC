@@ -54,6 +54,10 @@ void eliminarElementoRaiz(tipoMaxMonticulo *M)
     }
 }
 
+void borrarMonticulo(tipoMaxMonticulo *M)
+{    
+    M->pos = -1;    
+}
 TipoDistancia devolverRaiz(tipoMaxMonticulo M)
 {
     return (M.array[0]);

@@ -41,11 +41,9 @@ void errorLista(char s[]);
 
 void insertarEnLista(ListaDinamica *l, tipoAgua elemento);
 
-void PrimeraCeldaLista(ListaDinamica *l, celdaLista *celda);
 
 void eliminarElemento(ListaDinamica *l, int posicion);
 
-void ObtenerSiguiente(celdaLista *celda);
 
 tipoAgua mostrarElementoCelda(celdaLista *celda);
 
