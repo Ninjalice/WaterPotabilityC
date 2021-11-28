@@ -197,6 +197,6 @@ int ObtenerMejorN(ListaDinamica *datos)
         }
         printf("La probabilidad de %d es %.5f\n", i, prob);
     }
-    printf("La mejor probabilidad de %d es %.5f\n", mejorN, prob);
+    printf("La mejor probabilidad de %d es %.5f\n", mejorN, mejorProbabilidad);
     return mejorN;
 }
