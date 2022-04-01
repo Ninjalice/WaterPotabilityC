@@ -15,7 +15,7 @@ make
 
 
  
-![water](water.jpg)
+![water](project_image.jpg)
 
 ----
 Created by  Karolina Maria Bodziony, Wassim Bouzarhoun, Andrés Bastida nad Endika Aguirre.
